@@ -1,0 +1,20 @@
+package br.sono.diario
+
+import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import br.sono.diario.data.AppDatabase
+import br.sono.diario.data.Prefs
+import br.sono.diario.reminder.Reminder
+
+class App : Application() {
+    val db: AppDatabase by lazy { androidDatabase(this) }
+    val prefs: Prefs by lazy { Prefs(AndroidStore(this)) }
+
+    override fun onCreate() {
+        super.onCreate()
+        getSystemService(NotificationManager::class.java).createNotificationChannel(
+            NotificationChannel(Reminder.CHANNEL, "Lembrete do diário", NotificationManager.IMPORTANCE_DEFAULT)
+        )
+    }
+}
